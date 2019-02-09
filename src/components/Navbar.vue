@@ -3,7 +3,7 @@
     <div id="title">Search Places</div>
     <form id="search">
       <input type="text" placeholder="Enter City" required>
-      <input type="text" placeholder="Enter Places" required>
+      <input type="text" placeholder="Enter Place" required>
       <button @click="" >Search</button>
     </form>
   </div>

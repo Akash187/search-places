@@ -9,7 +9,5 @@
 </script>
 
 <style scoped>
-  #search{
-    height: 10vh;
-  }
+
 </style>
