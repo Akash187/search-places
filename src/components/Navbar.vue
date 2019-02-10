@@ -4,7 +4,7 @@
     <form id="search">
       <input type="text" placeholder="Enter City" required>
       <input type="text" placeholder="Enter Place" required>
-      <button @click="" >Search</button>
+      <button @click="">Search</button>
     </form>
   </div>
 </template>

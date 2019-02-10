@@ -1,19 +1,21 @@
 <template>
   <div id="app">
     <Navbar/>
-    <Carousal/>
+    <Map></Map>
   </div>
 </template>
 
 <script>
 import Navbar from './components/Navbar.vue'
-import Carousal from './components/Carousal.vue'
+// import Carousal from './components/Carousal.vue'
+import Map from './components/Map'
 
 export default {
   name: 'app',
   components: {
     Navbar,
-    Carousal
+    // Carousal,
+    Map
   }
 }
 </script>
