@@ -1,6 +1,14 @@
 <template>
   <div id="app">
-    <Navbar @showCarousal="showCarousal"/>
+    <Navbar @showCarousal="showCarousal" :activeComponent="component"/>
+      <modal name="searchForm">
+        <div class="modal-form">
+          <button @click="$modal.hide('searchForm')">
+            ❌
+          </button>
+          <keep-alive><Form></Form></keep-alive>
+        </div>
+      </modal>
     <div v-if="this.component === 'Carousal'">
       <Carousal/>
     </div>
@@ -14,6 +22,7 @@
 import Navbar from './components/Navbar.vue'
 import Carousal from './components/Carousal.vue'
 import MapView from './components/MapView.vue'
+import Form from './components/Form'
 import {bus} from './main'
 
 export default {
@@ -21,7 +30,8 @@ export default {
   components: {
     Navbar,
     MapView,
-    Carousal
+    Carousal,
+    Form
   },
   data(){
     return {
@@ -34,7 +44,6 @@ export default {
   },
   methods: {
     showMapView(data){
-      console.log("Data : " + data);
       this.placesResult = data;
       this.component = 'MapView';
     },
@@ -78,13 +87,80 @@ export default {
     opacity: 0.8;
   }
 
-  @media only screen and (min-width: 900px) {
-    #sidnav form{
+  #search{
+    display: none;
+  }
+
+  .v--modal-background-click{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .v--modal-box{
+    top: 0 !important;
+    left: 0 !important;
+    height: 180px !important;
+    width: 300px !important;
+  }
+
+  .modal-form form{
+    /*display: none;*/
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+  }
+
+  /* Full-width input fields */
+  .modal-form form input[type=text] {
+    min-height: 6vh;
+    width: 80%;
+    font-size: 1rem;
+    margin: 1vh 1vw;
+    padding: 2vh 20px;
+    border: 1px solid #ccc;
+  }
+
+  @media only screen and (min-width: 992px) {
+    .sidenav form{
       display: none;
     }
-    #list{
-      margin-top: 0;
-      max-height: 90vh;
+
+    #hamburger-menu{
+      display: none;
+    }
+
+    #search{
+      display: block;
+    }
+
+    #searchIcon{
+      display: none;
+    }
+  }
+
+  @media only screen and (max-width: 992px) {
+    #map{
+      min-width: 100vw;
+    }
+
+    #searchIcon{
+      display: block;
+    }
+
+    .sidenav{
+      width: 0;
+      transition: width 1s;
+    }
+
+    .sidenav-open{
+      position: absolute;
+      max-height: 100%;
+      width: 320px;
+      transition: width 1s;
+      display: block;
+      z-index: 999;
     }
   }
 

@@ -121,6 +121,8 @@
       },
 
       showInfoWindow: function (id) {
+        document.getElementById('hamburger-menu').classList.remove('change');
+        document.getElementById('sidenav').classList.remove('sidenav-open');
         this.markers.forEach((marker) => {
           if(marker.id === id){
             this.google.maps.event.trigger(marker,'click');

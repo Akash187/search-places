@@ -1,7 +1,7 @@
 <template>
   <form  v-on:submit.prevent="sendSearchResult">
-    <input type="text" v-model="city" placeholder="Enter City" required>
-    <input type="text" v-model="place" placeholder="Enter Place" required>
+    <input type="text" value="city" v-model="city" placeholder="Enter City" required>
+    <input type="text" value="place" v-model="place" placeholder="Enter Place" required>
     <button>Search</button>
   </form>
 </template>
@@ -19,6 +19,7 @@
     },
     methods: {
       sendSearchResult: async function() {
+        this.$modal.hide('searchForm');
         let info = {};
         try{
           const response = await fetch(`https://api.foursquare.com/v2/venues/explore?near=${this.city}&query=${this.place}&client_id=${process.env.VUE_APP_CLIENT_ID}&client_secret=${process.env.VUE_APP_CLIENT_SECRET}&v=${process.env.VUE_APP_VERSION_DATE}`);

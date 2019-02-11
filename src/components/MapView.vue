@@ -28,7 +28,9 @@
     },
     watch: {
       places: function(val, oldVal) {
-        if(val.meta.code === 400){
+        if(val.meta.code === 200){
+          this.error = false;
+        }else{
           this.error = true;
         }
       }

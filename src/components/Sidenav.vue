@@ -1,7 +1,6 @@
 <template>
   <div>
-    <div id="sidnav">
-      <Form class="show-medium"></Form>
+    <div id="sidenav" class="sidenav">
       <div id="list">
         <div v-for="venue in venues">
           <h2 @click="showInfoWindow(venue.id)" class="list-item">{{venue.name}}</h2>
@@ -44,15 +43,12 @@
       initializeVenue: function(){
         this.venues = [];
         this.places.response.groups[0].items.forEach((place) => {
-
-          console.log(place);
           this.venues.push({name: place.venue.name, id: place.venue.id});
         });
       }
     },
     methods: {
       showInfoWindow : function (id) {
-        console.log(id);
         bus.$emit('showInfo', id)
       }
     }
@@ -60,34 +56,32 @@
 </script>
 
 <style>
-  #sidnav{
+  .sidenav {
     max-height: 90vh;
+    min-height: 90vh;
     width: 30vw;
-    background-color: #20048b;
+    background-color: bisque;
   }
 
-  #sidnav form{
-    /*display: none;*/
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    flex-direction: column;
-  }
 
-  /* Full-width input fields */
-  #sidnav form input[type=text] {
-    height: 6vh;
-    width: 80%;
-    font-size: 1rem;
-    margin: 1vh 1vw;
-    padding: 2vh 20px;
-    border: 1px solid #ccc;
-  }
 
   #list{
     overflow-y: scroll;
-    max-height: 67vh;
-    margin-top: 1vh;
+    max-height: 90vh;
+    background-color: white;
+  }
+
+  #list::-webkit-scrollbar {
+    width: 0.25rem;
+  }
+
+  #list::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  }
+
+  #list::-webkit-scrollbar-thumb {
+    background-color: darkgrey;
+    outline: 1px solid slategrey;
   }
 
   .list-item{
@@ -97,5 +91,11 @@
     width: 100%;
     border-bottom: 1px solid brown;
     cursor: pointer;
+  }
+
+  .list-item:hover{
+    opacity: 0.8;
+    background-color: brown;
+    color: white;
   }
 </style>
