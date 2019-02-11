@@ -6,6 +6,7 @@
 
 <script>
   import GoogleMapsApiLoader from "google-maps-api-loader";
+  import { bus } from '../main';
 
   export default {
     name: "GoogleMap",
@@ -25,11 +26,13 @@
     data() {
       return {
         google: null,
-        map: null,
         searchResult: {},
         markers: [],
         infoWindows: []
       };
+    },
+    created(){
+      bus.$on('showInfo', this.showInfoWindow);
     },
     async mounted() {
       this.searchResult = this.places;
@@ -45,14 +48,12 @@
         let google = this.google;
         const mapContainer = this.$refs.googleMap;
         const map = new google.maps.Map(mapContainer, {
-          zoom: 12,
+          zoom: 10,
           center: this.searchResult.response.geocode.center,
           mapTypeControlOptions: {
             mapTypeIds: ['roadmap']
           }
         });
-
-        this.map = map;
 
         this.searchResult.response.groups[0].items.map((place) => {
           let marker = new google.maps.Marker({
@@ -63,8 +64,15 @@
             title: place.venue.name
           });
 
+          let fullAddress = '';
+          place.venue.location.formattedAddress.forEach((part) => {
+            fullAddress += part;
+            fullAddress += ', ';
+          });
+          fullAddress = fullAddress.substring(0, fullAddress.length - 2) + '.';
+
           marker.addListener('click', () => {
-            this.infowindow(map, marker, marker.id, marker.title);
+            this.infowindow(map, marker, marker.id, marker.title, fullAddress);
           });
 
           marker.addListener('mouseover', () => {
@@ -84,9 +92,7 @@
           }, 400);
         }
       },
-      infowindow : function(marker, map, id, title){
-        let info;
-
+      infowindow : function(marker, map, id, title, address){
         //close the previous infoWindow
         this.infoWindows.forEach((infoWindow) => {
           infoWindow.close();
@@ -98,14 +104,14 @@
           return res.json();
         }).then((data) => {
           let image = data.response.photos.items[0];
-          let content =`<h3>${title}</h3><img src=\"${image.prefix}320x240${image.suffix}\"/>`;
+          let content =`<h3>${title}</h3><img src=\"${image.prefix}320x240${image.suffix}\"/><div>Address: ${address}</div>`;
           let info = new this.google.maps.InfoWindow({
             content
           });
           info.open(marker, map);
           this.infoWindows.push(info);
         }).catch((error) => {
-          let content =`<h3>${title}</h3><img src=\"/img/errorImage.jpg"/>`;
+          let content =`<h3>${title}</h3><img src=\"/img/errorImage.jpg"/><div style="max-width: 240px"><h3>Address: </h3> ${address}</div>`;
           let info = new this.google.maps.InfoWindow({
             content
           });
@@ -114,9 +120,9 @@
         });
       },
 
-      showInfoWindow: function () {
+      showInfoWindow: function (id) {
         this.markers.forEach((marker) => {
-          if(marker.id === '43a48f1bf964a520502c1fe3'){
+          if(marker.id === id){
             this.google.maps.event.trigger(marker,'click');
           }
         });
@@ -127,7 +133,7 @@
 
 <style>
   #map {
-    width: 100vw;
+    min-width: 70vw;
     min-height: 90vh;
   }
 </style>

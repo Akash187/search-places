@@ -1,32 +1,22 @@
 <template>
   <div id="nav">
     <div id="title" @click="showCarousal">Search Places</div>
-    <form id="search" v-on:submit.prevent="searchPlaces">
-      <input type="text" v-model="city" placeholder="Enter City" required>
-      <input type="text" v-model="place" placeholder="Enter Place" required>
-      <button>Search</button>
-    </form>
+    <div id="search">
+      <Form @receiveData="receiveData"></Form>
+    </div>
   </div>
 </template>
 
 <script>
+  import Form from './Form';
+
   export default {
     name: "Navbar",
-    data(){
-      return {
-        city: '',
-        place: ''
-      }
+    components: {
+      Form
     },
     methods: {
-      searchPlaces: async function() {
-        let info = {};
-        try{
-          const response = await fetch(`https://api.foursquare.com/v2/venues/explore?near=${this.city}&query=${this.place}&client_id=${process.env.VUE_APP_CLIENT_ID}&client_secret=${process.env.VUE_APP_CLIENT_SECRET}&v=${process.env.VUE_APP_VERSION_DATE}`);
-          info = await response.json();
-        }catch (error){
-          info = {meta: {code: 400}};
-        }
+      receiveData: function(info){
         this.$emit('showMapView', info);
       },
       showCarousal: function(){
@@ -39,7 +29,7 @@
 <style scoped>
   #nav{
     align-items: center;
-    background-color: #1fbbff;
+    background-color: #000066;
     box-shadow: 2px 2px 1px #aaaaaa;
     display: flex;
     justify-content: space-between;
@@ -57,34 +47,8 @@
     opacity: 0.8;
   }
 
-  #search{
+  #search form{
     display: flex;
     align-items: center;
-  }
-
-  /* Full-width input fields */
-  input[type=text] {
-    width: 100%;
-    height: 6vh;
-    font-size: 1rem;
-    margin: 0 1vw;
-    padding: 2vh 20px;
-    border: 1px solid #ccc;
-  }
-
-  /* Set a style for all buttons */
-  button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    font-size: 1rem;
-    width: auto;
-    height: 6vh;
-    border: none;
-    cursor: pointer;
-  }
-
-  button:hover {
-    opacity: 0.8;
   }
 </style>

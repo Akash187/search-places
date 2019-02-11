@@ -3,7 +3,7 @@
     <div id="error" v-if="error">
       Error Fetching Places!
     </div>
-    <div v-else>
+    <div v-else id="map">
       <Sidenav :places="places"/>
       <GoogleMap :places="places"/>
     </div>
@@ -53,5 +53,8 @@
     width: 100vw;
     font-size: 5vw;
     text-align: center;
+  }
+  #map{
+    display: flex;
   }
 </style>
