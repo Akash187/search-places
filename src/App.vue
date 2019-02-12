@@ -107,6 +107,7 @@ export default {
   .modal-form form{
     /*display: none;*/
     display: flex;
+    min-height: 140px;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -114,12 +115,16 @@ export default {
 
   /* Full-width input fields */
   .modal-form form input[type=text] {
-    min-height: 6vh;
+    min-height: 32px;
     width: 80%;
     font-size: 1rem;
     margin: 1vh 1vw;
     padding: 2vh 20px;
     border: 1px solid #ccc;
+  }
+
+  .modal-form form button{
+    min-height: 32px;
   }
 
   @media only screen and (min-width: 992px) {
@@ -143,6 +148,7 @@ export default {
   @media only screen and (max-width: 992px) {
     #map{
       min-width: 100vw;
+      position: fixed;
     }
 
     #searchIcon{
@@ -159,7 +165,7 @@ export default {
     .sidenav-open{
       position: absolute;
       max-height: 100%;
-      width: 320px;
+      width: 324px;
       left: 0;
       transition: left 0.5s ease-in;
       display: block;
