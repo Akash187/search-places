@@ -151,16 +151,26 @@ export default {
 
     .sidenav{
       width: 0;
-      transition: width 1s;
+      left: -320px;
+      transition: left 0.5s, width 0.5s;
+      z-index: 999;
     }
 
     .sidenav-open{
       position: absolute;
       max-height: 100%;
       width: 320px;
-      transition: width 1s;
+      left: 0;
+      transition: left 0.5s ease-in;
       display: block;
       z-index: 999;
+    }
+
+    .list-item{
+      width: 320px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
   }
 
